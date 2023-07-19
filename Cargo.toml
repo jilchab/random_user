@@ -1,6 +1,6 @@
 [package]
 name = "random_user"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["Jil Chabaro <jilchabaro@gmail.com>"]
 description = "Random user generator using the api from <https://randomuser.me>"
