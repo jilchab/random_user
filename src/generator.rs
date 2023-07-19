@@ -126,7 +126,7 @@ pub struct UserGenerator {
 }
 
 impl UserGenerator {
-    const API_URL: &str = "http://localhost:8000";//"https://randomuser.me/api/0/";
+    const API_URL: &str = "https://randomuser.me/api/1.4/";
 
     pub fn new() -> UserGenerator {
         UserGenerator { client: reqwest::Client::new() }
