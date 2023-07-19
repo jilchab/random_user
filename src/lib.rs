@@ -39,7 +39,6 @@
 //! }
 //!
 
-mod error;
 mod generator;
 mod types;
 
