@@ -4,18 +4,16 @@ use thiserror::Error;
 /// Helper to request users with filters like gender, nationalities, etc.
 pub struct UserGeneratorBuilder {
     req: reqwest::RequestBuilder,
+    gender: Option<Gender>,
 }
 
 impl UserGeneratorBuilder {
-    pub(crate) fn new(req: reqwest::RequestBuilder) -> Self {
-        Self { req }
+    pub(crate) fn new(req: reqwest::RequestBuilder, gender: Option<Gender>) -> Self {
+        Self { req, gender }
     }
     /// Request a specific gender
     pub fn gender(self, gender: Gender) -> Self {
-        Self::new(
-            self.req
-                .query(&[("gender", serde_json::to_value(gender).unwrap().as_str())]),
-        )
+        Self::new(self.req, Some(gender))
     }
 
     /// Request a specific nationality
@@ -23,6 +21,7 @@ impl UserGeneratorBuilder {
         Self::new(
             self.req
                 .query(&[("nat", serde_json::to_value(nationality).unwrap().as_str())]),
+            self.gender,
         )
     }
 
@@ -34,7 +33,7 @@ impl UserGeneratorBuilder {
             nats.push(',');
         }
         nats.pop();
-        Self::new(self.req.query(&[("nat", nats)]))
+        Self::new(self.req.query(&[("nat", nats)]), self.gender)
     }
 
     /// Request with a specified seed, allow to always generate the same users
@@ -42,7 +41,7 @@ impl UserGeneratorBuilder {
     /// ### Warning:
     /// May discard other filters
     pub fn seed(self, seed: &str) -> Self {
-        Self::new(self.req.query(&[("seed", seed)]))
+        Self::new(self.req.query(&[("seed", seed)]), self.gender)
     }
 
     /// Request a user with specific password rules
@@ -68,7 +67,7 @@ impl UserGeneratorBuilder {
     /// let user = generator.get().password("upper,lower,8").fetch_one().await?
     /// ```
     pub fn password(self, charset: &str) -> Self {
-        Self::new(self.req.query(&[("password", charset)]))
+        Self::new(self.req.query(&[("password", charset)]), self.gender)
     }
 
     /// Generate users with the api informations
@@ -87,7 +86,7 @@ impl UserGeneratorBuilder {
     }
 
     fn count(self, count: usize) -> Self {
-        Self::new(self.req.query(&[("results", count)]))
+        Self::new(self.req.query(&[("results", count)]), self.gender)
     }
 
     async fn request(self) -> Result<RandomUserResult> {
@@ -144,7 +143,7 @@ impl UserGenerator {
 
     /// Start the request to easily apply filters
     pub fn get(&self) -> UserGeneratorBuilder {
-        UserGeneratorBuilder::new(self.client.get(Self::API_URL))
+        UserGeneratorBuilder::new(self.client.get(Self::API_URL), None)
     }
 
     /// Generate users with the api informations
