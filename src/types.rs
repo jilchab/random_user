@@ -1,9 +1,10 @@
 use chrono::{DateTime, Utc};
-use enumset::EnumSetType;
+use enumset::{EnumSet, EnumSetIter, EnumSetType};
 use serde::{Deserialize, Serialize};
-
+use strum::IntoEnumIterator;
+use strum_macros::EnumIter;
 /// Attempts to represent the gender identity of a user
-#[derive(Debug, Deserialize, Serialize, EnumSetType)]
+#[derive(Debug, Deserialize, Serialize, EnumSetType, EnumIter)]
 #[serde(rename_all = "lowercase")]
 pub enum Gender {
     Female,
@@ -14,6 +15,15 @@ pub enum Gender {
     Agender,
     Other,
     None,
+}
+
+impl Gender {
+    pub fn random_gender() -> EnumSet<Self> {
+        Self::iter().filter(|_| rand::random()).fold(
+            EnumSet::<Self>::EMPTY,
+            |acc: EnumSet<Self>, gender: Self| acc | gender,
+        )
+    }
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, PartialEq, Serialize)]
