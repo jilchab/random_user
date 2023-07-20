@@ -184,7 +184,7 @@ impl UserGenerator {
     /// ## Example:
     /// ```
     /// let user = generator.fetch_one().await?
-    /// println("{user:?}");
+    /// println!("{user:?}");
     /// ```
     pub async fn fetch_one(&self) -> Result<RandomUser> {
         self.get().fetch_one().await
