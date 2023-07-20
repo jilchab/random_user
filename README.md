@@ -21,7 +21,7 @@ async fn main() {
 ### Generate multiple random users with filters:
 ```rust
 let generator = UserGenerator::new();
-// Get 5 Austrialian women with complex passwords
+// Get 5 Australian women with complex passwords
 let users = generator
     .get()
     .gender(Gender::Female)
