@@ -1,10 +1,9 @@
-
-use thiserror::Error;
 use crate::types::{Gender, Nationality, RandomUser, RandomUserResponse, RandomUserResult};
+use thiserror::Error;
 
 /// Helper to request users with filters like gender, nationalities, etc.
 pub struct UserGeneratorBuilder {
-    req: reqwest::RequestBuilder
+    req: reqwest::RequestBuilder,
 }
 
 impl UserGeneratorBuilder {
@@ -13,12 +12,18 @@ impl UserGeneratorBuilder {
     }
     /// Request a specific gender
     pub fn gender(self, gender: Gender) -> Self {
-        Self::new(self.req.query(&[("gender", serde_json::to_value(gender).unwrap().as_str())]))
+        Self::new(
+            self.req
+                .query(&[("gender", serde_json::to_value(gender).unwrap().as_str())]),
+        )
     }
 
     /// Request a specific nationality
     pub fn nationality(self, nationality: Nationality) -> Self {
-        Self::new(self.req.query(&[("nat", serde_json::to_value(nationality).unwrap().as_str())]))
+        Self::new(
+            self.req
+                .query(&[("nat", serde_json::to_value(nationality).unwrap().as_str())]),
+        )
     }
 
     /// Request specific nationalities, picked at random between each user
@@ -105,7 +110,10 @@ impl UserGeneratorBuilder {
         let text = response.text().await?;
         match content_type {
             ct if ct.contains("text/plain") => Ok(RandomUserResponse::Error(text)),
-            ct if ct.contains("application/json") => serde_json::from_str::<RandomUserResponse>(&text).map_err(|_| RandomUserError::BadFormat),
+            ct if ct.contains("application/json") => {
+                serde_json::from_str::<RandomUserResponse>(&text)
+                    .map_err(|_| RandomUserError::BadFormat)
+            }
             _ => Err(RandomUserError::BadFormat),
         }
     }
@@ -128,15 +136,17 @@ pub struct UserGenerator {
 impl UserGenerator {
     const API_URL: &str = "https://randomuser.me/api/1.4/";
 
-    #[must_use] pub fn new() -> UserGenerator {
-        UserGenerator { client: reqwest::Client::new() }
+    #[must_use]
+    pub fn new() -> UserGenerator {
+        UserGenerator {
+            client: reqwest::Client::new(),
+        }
     }
 
     /// Start the request to easily apply filters
-    #[must_use] pub fn get(&self) -> UserGeneratorBuilder {
-        UserGeneratorBuilder::new(
-            self.client.get(Self::API_URL)
-        )
+    #[must_use]
+    pub fn get(&self) -> UserGeneratorBuilder {
+        UserGeneratorBuilder::new(self.client.get(Self::API_URL))
     }
 
     /// Generate users with the api informations

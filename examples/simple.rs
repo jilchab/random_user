@@ -2,7 +2,6 @@ use random_user::UserGenerator;
 
 #[tokio::main]
 async fn main() {
-
     let generator = UserGenerator::new();
 
     let user = generator

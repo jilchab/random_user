@@ -42,5 +42,5 @@
 mod generator;
 mod types;
 
-pub use types::*;
 pub use generator::UserGenerator;
+pub use types::*;
