@@ -1,18 +1,18 @@
 use crate::types::*;
+use enumset::EnumSet;
 use thiserror::Error;
-
 /// Helper to request users with filters like gender, nationalities, etc.
 pub struct UserGeneratorBuilder {
     req: reqwest::RequestBuilder,
-    gender: Option<Gender>,
+    gender: Option<EnumSet<Gender>>,
 }
 
 impl UserGeneratorBuilder {
-    pub(crate) fn new(req: reqwest::RequestBuilder, gender: Option<Gender>) -> Self {
+    pub(crate) fn new(req: reqwest::RequestBuilder, gender: Option<EnumSet<Gender>>) -> Self {
         Self { req, gender }
     }
     /// Request a specific gender
-    pub fn gender(self, gender: Gender) -> Self {
+    pub fn gender(self, gender: EnumSet<Gender>) -> Self {
         Self::new(self.req, Some(gender))
     }
 
@@ -101,7 +101,20 @@ impl UserGeneratorBuilder {
         let rsp = Self::parse_response(api_rsp).await?;
         match rsp {
             RandomUserResponse::Error(e) => Err(RandomUserError::Api(e)),
-            RandomUserResponse::Result(res) => Ok(res),
+            RandomUserResponse::Result(res) => Ok(RandomUserResult {
+                results: {
+                    res.results
+                        .iter()
+                        .map(move |user| {
+                            let gender = self.gender.unwrap_or_else(Gender::random_gender);
+                            let mut user = user.to_owned();
+                            user.gender = gender;
+                            user
+                        })
+                        .collect()
+                },
+                info: res.info,
+            }),
         }
     }
 

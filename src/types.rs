@@ -1,5 +1,5 @@
 use chrono::{DateTime, Utc};
-use enumset::{EnumSet, EnumSetIter, EnumSetType};
+use enumset::{EnumSet, EnumSetType};
 use serde::{Deserialize, Serialize};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
@@ -141,7 +141,7 @@ pub struct Picture {
 
 #[derive(Debug, Clone, Deserialize, PartialEq)]
 pub struct RandomUser {
-    pub gender: Gender,
+    pub gender: EnumSet<Gender>,
     pub name: Name,
     pub location: Location,
     pub email: String,
