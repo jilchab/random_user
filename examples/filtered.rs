@@ -1,8 +1,7 @@
-use random_user::{UserGenerator, Gender, Nationality};
+use random_user::{Gender, Nationality, UserGenerator};
 
 #[tokio::main]
 async fn main() {
-
     let generator = UserGenerator::new();
 
     // Get 5 Austrialian women with complex passwords
@@ -16,6 +15,9 @@ async fn main() {
         .expect("Error fetching random user");
 
     for user in users {
-        println!("Name: {}, Password: {}", user.name.first, user.login.password);
+        println!(
+            "Name: {}, Password: {}",
+            user.name.first, user.login.password
+        );
     }
 }

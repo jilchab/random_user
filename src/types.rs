@@ -1,57 +1,57 @@
-use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, Deserialize, PartialEq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Gender {
     Female,
-    Male
+    Male,
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, PartialEq, Serialize)]
 pub enum Nationality {
-    #[serde(rename="AU")]
+    #[serde(rename = "AU")]
     Australian,
-    #[serde(rename="BR")]
+    #[serde(rename = "BR")]
     Brazilian,
-    #[serde(rename="CA")]
+    #[serde(rename = "CA")]
     Canadian,
-    #[serde(rename="CH")]
+    #[serde(rename = "CH")]
     Swiss,
-    #[serde(rename="DE")]
+    #[serde(rename = "DE")]
     German,
-    #[serde(rename="DK")]
+    #[serde(rename = "DK")]
     Danish,
-    #[serde(rename="ES")]
+    #[serde(rename = "ES")]
     Spanish,
-    #[serde(rename="FI")]
+    #[serde(rename = "FI")]
     Finnish,
-    #[serde(rename="FR")]
+    #[serde(rename = "FR")]
     French,
-    #[serde(rename="GB")]
+    #[serde(rename = "GB")]
     British,
-    #[serde(rename="IE")]
+    #[serde(rename = "IE")]
     Irish,
-    #[serde(rename="IN")]
+    #[serde(rename = "IN")]
     Indian,
-    #[serde(rename="IR")]
+    #[serde(rename = "IR")]
     Iranian,
-    #[serde(rename="MX")]
+    #[serde(rename = "MX")]
     Mexican,
-    #[serde(rename="NL")]
+    #[serde(rename = "NL")]
     Dutch,
-    #[serde(rename="NO")]
+    #[serde(rename = "NO")]
     Norwegian,
-    #[serde(rename="NZ")]
+    #[serde(rename = "NZ")]
     NewZealander,
-    #[serde(rename="RS")]
+    #[serde(rename = "RS")]
     Serbian,
-    #[serde(rename="TR")]
+    #[serde(rename = "TR")]
     Turkish,
-    #[serde(rename="UA")]
+    #[serde(rename = "UA")]
     Ukrainian,
-    #[serde(rename="US")]
-    American
+    #[serde(rename = "US")]
+    American,
 }
 
 #[derive(Debug, Clone, Deserialize, PartialEq)]
@@ -128,14 +128,14 @@ pub struct RandomUser {
     pub location: Location,
     pub email: String,
     pub login: Login,
-    #[serde(rename="dob")]
+    #[serde(rename = "dob")]
     pub birthday: RandomDate,
     pub registered: RandomDate,
     pub phone: String,
     pub cell: String,
     pub id: Identity,
     pub picture: Picture,
-    #[serde(rename="nat")]
+    #[serde(rename = "nat")]
     pub nationality: Nationality,
 }
 
@@ -150,12 +150,12 @@ pub struct RandomUserInfo {
 #[derive(Debug, Clone, Deserialize, PartialEq)]
 pub struct RandomUserResult {
     pub results: Vec<RandomUser>,
-    pub info: RandomUserInfo
+    pub info: RandomUserInfo,
 }
 
 #[derive(Debug, Clone, Deserialize, PartialEq)]
 pub enum RandomUserResponse {
-    #[serde(rename="error")]
+    #[serde(rename = "error")]
     Error(String),
     #[serde(untagged)]
     Result(RandomUserResult),
@@ -168,6 +168,6 @@ where
     let json: serde_json::value::Value = serde_json::value::Value::deserialize(deserializer)?;
     match json {
         serde_json::Value::String(s) => Ok(s),
-        _  => Ok(json.to_string())
+        _ => Ok(json.to_string()),
     }
 }
