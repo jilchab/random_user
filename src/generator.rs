@@ -64,7 +64,14 @@ impl UserGeneratorBuilder {
     /// ## Example:
     /// ```
     /// // Get a user with a password composed with 8 upper and/or lower characters
-    /// let user = generator.get().password("upper,lower,8").fetch_one().await?
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     use random_user::UserGenerator;
+    ///     
+    ///     let generator = UserGenerator::new();
+    ///
+    ///     let user = generator.get().password("upper,lower,8").fetch_one().await.unwrap();
+    /// }
     /// ```
     pub fn password(self, charset: &str) -> Self {
         Self::new(self.req.query(&[("password", charset)]), self.gender)
@@ -122,11 +129,16 @@ impl UserGeneratorBuilder {
 ///
 /// ## Example:
 /// ```
-/// let generator = UserGenerator::new();
+/// #[tokio::main]
+/// async fn main() {
+///     use random_user::UserGenerator;
 ///
-/// let user = generator.fetch_one().await?
+///     let generator = UserGenerator::new();
 ///
-/// println!("{:#?}", user);
+///     let user = generator.fetch_one().await.unwrap();
+///
+///     println!("{:#?}", user);
+/// }
 /// ```
 pub struct UserGenerator {
     client: reqwest::Client,
@@ -151,13 +163,19 @@ impl UserGenerator {
     /// ## Example:
     /// ```
     /// // Fetch 5 random users with api info
-    /// let users = generator.fetch_with_info(5).await?
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     use random_user::UserGenerator;
+    ///     
+    ///     let generator = UserGenerator::new();
     ///
-    /// println!("{:?}", users.info);
-    /// for user in users.results {
-    ///     prinln!("{user:?}");
+    ///     let users = generator.fetch_with_info(5).await.unwrap();
+    ///
+    ///     println!("{:?}", users.info);
+    ///     for user in users.results {
+    ///         println!("{user:?}");
+    ///     };
     /// }
-    ///
     /// ```
     pub async fn fetch_with_info(&self, count: usize) -> Result<RandomUserResult> {
         self.get().fetch_with_info(count).await
@@ -168,12 +186,18 @@ impl UserGenerator {
     /// ## Example:
     /// ```
     /// // Fetch 5 random users
-    /// let users = generator.fetch(5).await?
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     use random_user::UserGenerator;
     ///
-    /// for user in users {
-    ///     prinln!("{user:?}");
+    ///     let generator = UserGenerator::new();
+    ///
+    ///     let users = generator.fetch(5).await.unwrap();
+    ///
+    ///     for user in users {
+    ///         println!("{user:?}");
+    ///     }
     /// }
-    ///
     /// ```
     pub async fn fetch(&self, count: usize) -> Result<Vec<RandomUser>> {
         self.get().fetch(count).await
@@ -183,8 +207,15 @@ impl UserGenerator {
     ///
     /// ## Example:
     /// ```
-    /// let user = generator.fetch_one().await?
-    /// println!("{user:?}");
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     use random_user::UserGenerator;
+    ///
+    ///     let generator = UserGenerator::new();
+    ///
+    ///     let user = generator.fetch_one().await.unwrap();
+    ///     println!("{user:?}");
+    /// }
     /// ```
     pub async fn fetch_one(&self) -> Result<RandomUser> {
         self.get().fetch_one().await
