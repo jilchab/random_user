@@ -10,5 +10,5 @@ async fn main() {
         .await
         .expect("Error fetching random user");
 
-    println!("{:#?}", user);
+    println!("{user:#?}");
 }

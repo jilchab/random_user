@@ -1,6 +1,6 @@
 
 use thiserror::Error;
-use crate::types::*;
+use crate::types::{Gender, Nationality, RandomUser, RandomUserResponse, RandomUserResult};
 
 /// Helper to request users with filters like gender, nationalities, etc.
 pub struct UserGeneratorBuilder {
@@ -128,12 +128,12 @@ pub struct UserGenerator {
 impl UserGenerator {
     const API_URL: &str = "https://randomuser.me/api/1.4/";
 
-    pub fn new() -> UserGenerator {
+    #[must_use] pub fn new() -> UserGenerator {
         UserGenerator { client: reqwest::Client::new() }
     }
 
     /// Start the request to easily apply filters
-    pub fn get(&self) -> UserGeneratorBuilder {
+    #[must_use] pub fn get(&self) -> UserGeneratorBuilder {
         UserGeneratorBuilder::new(
             self.client.get(Self::API_URL)
         )
