@@ -35,12 +35,8 @@
 //!         .nationality(Nationality::Australian)
 //!         .password("upper,lower,special,12-24")
 //!         .fetch(5)
-//!         .await
-//!         .unwrap();
-//!
-//!     for user in users {
-//!         println!("Name: {}, Password: {}", user.name.first, user.login.password);
-//!     };
+//!         .await;
+//!         
 //! }
 //! ```
 
