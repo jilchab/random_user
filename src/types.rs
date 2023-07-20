@@ -1,24 +1,15 @@
 use chrono::{DateTime, Utc};
+use enumset::EnumSetType;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Copy, Deserialize, PartialEq, Serialize)]
-#[serde(rename_all = "lowercase")]
 /// Attempts to represent the gender identity of a user
-pub struct Gender {
-    /// A list of all genders the user has specified. An empty vector *is* a valid value, and could
-    /// represent either an user who does not experience gender at all, or a user who preferred not
-    /// to answer, or both
-    genders: Vec<Gender>,
-    /// Indicates whether the user is transgender, if they chose to specify. `Some(true)` means
-    /// yes transgender, `Some(false)` means not transgender, and `None` could either mean "not
-    /// applicable" or "prefer not to answer" or both
-    is_trans: Option<bool>,
-}
-
-enum GenderOption {
+#[derive(Debug, Deserialize, Serialize, EnumSetType)]
+#[serde(rename_all = "lowercase")]
+pub enum Gender {
     Female,
     Male,
     NonBinary,
+    Transgender,
     Queer,
     Agender,
     Other,
