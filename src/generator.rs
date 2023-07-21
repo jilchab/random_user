@@ -63,7 +63,7 @@ impl UserGeneratorBuilder {
     /// By default, passwords will be between 8 - 64 characters long.
     ///
     /// ## Example:
-    /// ```
+    /// ```ignore
     /// // Get a user with a password composed with 8 upper and/or lower characters
     /// let user = generator.get().password("upper,lower,8").fetch_one().await?
     /// ```
@@ -122,7 +122,7 @@ impl UserGeneratorBuilder {
 /// Random user generator
 ///
 /// ## Example:
-/// ```
+/// ```ignore
 /// let generator = UserGenerator::new();
 ///
 /// let user = generator.fetch_one().await?
@@ -152,13 +152,13 @@ impl UserGenerator {
     /// Generate users with the api informations
     ///
     /// ## Example:
-    /// ```
+    /// ```ignore
     /// // Fetch 5 random users with api info
     /// let users = generator.fetch_with_info(5).await?
     ///
     /// println!("{:?}", users.info);
     /// for user in users.results {
-    ///     prinln!("{user:?}");
+    ///     prinlntt!("{user:?}");
     /// }
     ///
     /// ```
@@ -169,12 +169,12 @@ impl UserGenerator {
     /// Generate users
     ///
     /// ## Example:
-    /// ```
+    /// ```ignore
     /// // Fetch 5 random users
     /// let users = generator.fetch(5).await?
     ///
     /// for user in users {
-    ///     prinln!("{user:?}");
+    ///     prinlnt!("{user:?}");
     /// }
     ///
     /// ```
@@ -185,7 +185,7 @@ impl UserGenerator {
     /// Generate a user
     ///
     /// ## Example:
-    /// ```
+    /// ```ignore
     /// let user = generator.fetch_one().await?
     /// println("{user:?}");
     /// ```
