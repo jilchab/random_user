@@ -1,14 +1,14 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Copy, Deserialize, PartialEq, Serialize)]
+#[derive(Debug, Clone, Copy, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Gender {
     Female,
     Male,
 }
 
-#[derive(Debug, Clone, Copy, Deserialize, PartialEq, Serialize)]
+#[derive(Debug, Clone, Copy, Deserialize, PartialEq, Eq, Serialize)]
 pub enum Nationality {
     #[serde(rename = "AU")]
     Australian,
@@ -54,32 +54,32 @@ pub enum Nationality {
     American,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Name {
     pub title: String,
     pub first: String,
     pub last: String,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Street {
     pub number: i32,
     pub name: String,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Coordinates {
     pub latitude: String,
     pub longitude: String,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Timezone {
     pub offset: String,
     pub description: String,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Location {
     pub street: Street,
     pub city: String,
@@ -91,7 +91,7 @@ pub struct Location {
     pub timezone: Timezone,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Login {
     pub uuid: String,
     pub username: String,
@@ -102,26 +102,26 @@ pub struct Login {
     pub sha256: String,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct RandomDate {
     pub date: DateTime<Utc>,
     pub age: i32,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Identity {
     pub name: String,
     pub value: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct Picture {
     pub large: String,
     pub medium: String,
     pub thumbnail: String,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct RandomUser {
     pub gender: Gender,
     pub name: Name,
@@ -139,7 +139,7 @@ pub struct RandomUser {
     pub nationality: Nationality,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct RandomUserInfo {
     pub seed: String,
     pub results: i32,
@@ -147,13 +147,13 @@ pub struct RandomUserInfo {
     pub version: String,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct RandomUserResult {
     pub results: Vec<RandomUser>,
     pub info: RandomUserInfo,
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub enum RandomUserResponse {
     #[serde(rename = "error")]
     Error(String),
